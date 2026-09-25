@@ -1,8 +1,8 @@
 # Siddharth Yalamanchili
 
-**I build AI systems that can take initiative without losing evidence, control, or accountability.**
+**I build AI systems and study the engineering decisions that make them useful, understandable, and dependable.**
 
-I care about the line between model judgment and deterministic software. Models should have room to reason where judgment helps; permissions, state, calculations, and acceptance should remain explicit and testable.
+I'm especially interested in the boundary between model judgment and deterministic software: what an agent should decide, what the system must guarantee, and what evidence lets us understand the result.
 
 ## Selected work
 
@@ -26,12 +26,23 @@ It compares three query strategies, seven retrievers, and two rerankers on a 50-
 
 [Architecture](https://github.com/Axionis47/finsolve-abac-rag/blob/main/docs/architecture.md) · [Experiments](https://github.com/Axionis47/finsolve-abac-rag/blob/main/docs/experiments.md) · [Security](https://github.com/Axionis47/finsolve-abac-rag/blob/main/docs/security.md)
 
+## What I'm investigating
+
+These projects led me to a broader set of questions about AI engineering:
+
+- How do we give nondeterministic systems useful autonomy without losing control?
+- How should agents preserve state, evidence, and obligations across long-running work?
+- Which decisions belong to the model, and which belong to deterministic software or a person?
+- How do we identify the first broken step in a long trajectory instead of judging only the final answer?
+- When does additional agent, retrieval, or tool complexity genuinely improve the system?
+
+I explore these questions through controlled comparisons, failure injection, and explicit evidence in [AI Engineering First Principles](https://github.com/Axionis47/basis-agent-engineering). I'm not looking for one universal architecture; I'm trying to understand the conditions and trade-offs behind each choice.
+
 ## How I work
 
-- Give models freedom where judgment is useful; put hard guarantees around evidence, permissions, execution, and approval.
-- Evaluate the path to an answer—retrieval, tool choices, checks, and failure behavior—not only the final prose.
-- Keep negative results. If a more complex method performs worse, that is an engineering result, not an embarrassment.
-- Use coding agents heavily, with clear contracts, tests, review, and explicit acceptance criteria.
+- Start with the outcome, uncertainty, and invariants before choosing a framework.
+- Give models room for judgment while keeping permissions, state transitions, calculations, and effects explicit.
+- Evaluate the path to an answer, preserve negative results, and change conclusions when the evidence disagrees.
 
 I am currently open to machine-learning and AI-engineering roles.
 
