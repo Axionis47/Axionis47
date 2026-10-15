@@ -1,21 +1,54 @@
 # My thinking: evaluation and observability
 
-Dependable evaluation needs evidence about outcomes, unsafe paths, and the first observable broken contract. Visibility supports diagnosis; controlled tests support attribution.
+A fluent answer can conceal an early contract failure. The revenue trace and multimodal cases below are constructed illustrations, not model outputs, evaluator scores, or measured runs.
 
 ## Evaluation units
 
-Checks should match meaningful responsibilities: functions, model outputs, tools, transitions, artifacts, trajectories, and complete tasks. A LangGraph node can represent one operation or several; node granularity changes what a failure label can localize. Splitting nodes improves attribution only when their contracts are meaningful. Dataset and case versions preserve provenance, slices, invariants, and expected evidence. Good component scores cannot substitute for end-to-end success or permission checks along the path. Aggregation should retain critical slices and uncertainty.
+```text
+Task REV-42: Q3 requested; selected source S-Q2-v1
+One node: retrieve + assemble + answer + validate
+```
+
+Retrieval eligibility fails first in this fixture; acceptance later fails to catch it. Those are distinct contracts even when one final score says “wrong.” One LangGraph node could own all four operations; separate nodes could expose meaningful contracts at each transition. A single node with internal tool spans can preserve operational detail without turning every function into a workflow boundary. The choice depends on independent retries, ownership, and the failure question.
+
+Node-level success can hide a bad retrieval; excessive splitting can add state and coordination overhead. Versioned datasets and cases need entity, quarter, source eligibility, and critical slices. Fault-localization accuracy, missing observations, retry behavior, and end-to-end acceptance would show whether finer granularity helps. Good local checks cannot establish that the entire path respected permissions.
 
 ## Rubrics and multimodal evidence
 
-Deterministic checks cover exact properties. Semantic assessment needs explicit rubrics, human calibration examples, disagreement review, and checks for judge drift or shared bias. Text, image, audio, and mixed-media tasks require modality-specific evidence: transcription accuracy differs from speaker attribution, and image grounding differs from prose plausibility. [Google's evaluation overview](https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview) describes managed evaluation mechanisms. Available metrics still need validation against the task and human judgments. A judge's confidence does not establish rubric validity.
+```text
+Image INV-42: total legible; vendor stamp ambiguous
+Audio A42: words clear; speaker identity disputed
+```
+
+An image invoice has a legible total but an ambiguous vendor stamp. Exact amount matching can check extraction; a human-calibrated rubric can assess whether vendor identity is supported. In audio, correct words do not guarantee correct speaker attribution. A model judge may favor a plausible description while humans mark the identity uncertain.
+
+[Google's evaluation overview describes managed evaluation mechanisms](https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview), not validation of a task-specific rubric. Human review and model judging can complement each other, but shared bias or unclear criteria can make both wrong. Source-region references, calibration labels, disagreement by slice, and grader versions would indicate whether to revise the rubric before trusting aggregate scores.
 
 ## Tracing and causality
 
-An observable record connects selected context, decisions, tools, artifacts, transitions, and versions. [LangSmith's observability concepts](https://docs.langchain.com/langsmith/observability-concepts) describe nested runs and traces; [OpenTelemetry's signals](https://opentelemetry.io/docs/concepts/signals/) distinguish traces, metrics, and logs. These show temporal order and dependencies. They do not alone prove that an earlier event caused a later failure. Controlled interventions or justified causal assumptions are needed to distinguish a plausible explanation from an established one. Missing spans should remain an evidence gap.
+```text
+LangGraph node N1: 0 to 6 seconds (inclusive)
+Child tools: retrieve 0 to 2; validate 4 to 6
+```
+
+Adding child-span durations to N1's inclusive duration double-counts time. Instrumenting those spans is useful for locating work inside the node. Boundary records answer a different question:
+
+| Stage | Observable evidence |
+| --- | --- |
+| Retrieve | Q3 requested; Q2-only source selected |
+| Assemble | Q2 metadata retained |
+| Answer | Plausible Q3 claim cites that source |
+| Validate | Shape passes; period check absent |
+
+Outcome-only review finds the wrong answer; boundary evidence localizes retrieval eligibility. [LangSmith explains nested runs and trace granularity](https://docs.langchain.com/langsmith/observability-concepts); [OpenTelemetry distinguishes traces, metrics, and logs](https://opentelemetry.io/docs/concepts/signals/). Temporal order does not prove retrieval caused every later error. Controlled source replacement could test that explanation; missing spans would weaken it. The aim is observable rationale, not hidden chain-of-thought.
 
 ## Regression and rollout
 
-Regression sets preserve consequential failures, including access violations, missing evidence, and recovery errors. CI can gate exact contracts and versioned evaluation thresholds while reporting inconclusive infrastructure cells separately. Staged rollout tests operational assumptions with explicit stop and recovery criteria. Sampling, redaction, retention, and access control protect trace evidence. A passing aggregate should never conceal a failing high-consequence slice or changed grader. Evidence thresholds depend on failure costs and the exposure created by rollout.
+```text
+Release R8: aggregate acceptance rises
+Critical slice: tenant A answer cites tenant B source
+```
 
-**What would change the choice:** Repeated missed faults favor finer observation or stronger evaluation units. Poor human agreement favors revising the rubric before trusting judge scores. Better diagnosis must justify instrumentation, privacy, and review costs, with fault locations established independently of the evaluator under assessment.
+A new release improves most revenue cases but exposes another tenant's source in one answer. An overall acceptance threshold can track broad change; a separate access invariant should block that release regardless of the average. CI can preserve the leaking case and contract check. Staged rollout can reveal workload and operational failures absent from the dataset.
+
+CI success is bounded by coverage; a quiet rollout can reflect limited exposure. Versioned critical-slice results, access-denial evidence, observed workload, rollback readiness, and reported missing or inconclusive cells would change confidence. Trace redaction, access, retention, and deletion also need checks, since diagnostic evidence can itself leak sensitive information.

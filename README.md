@@ -2,65 +2,63 @@
 
 **My guiding principle: high-quality AI solutions begin with a deep understanding of the problem.**
 
-My approach starts with the people doing the work, their actual needs, the domain, the existing workflow, and the consequences of getting it wrong. Understanding the problem means questioning assumptions, separating symptoms from causes, identifying constraints, and defining what a useful outcome would look like.
+My approach starts with the people doing the work, the outcome they need, the evidence available, and the consequences of being wrong. The useful questions are concrete: where does the workflow break, which assumptions remain untested, and what would establish improvement?
 
-That understanding guides what needs a model, what belongs in software, what requires human judgment, and how completion can be verified. Context assembly, tools, and architecture follow those decisions. Early experiments test the assumptions and deepen the understanding as the system develops.
+That belief motivated [Causal Desk: asking how a course was assigned before estimating its effect](https://github.com/Axionis47/causal-inference-agent#see-it). The platform starts with a causal question, gathers missing study information, and connects the selected analysis to its evidence and assumptions.
 
-That belief motivated [Causal Desk](https://github.com/Axionis47/causal-inference-agent), my causal analysis platform. Its workflow starts with a causal question, checks it against the data, and asks for missing information before selecting an analysis. The question, evidence, and assumptions guide the choice of method.
+AI engineering is a constrained optimization problem: finding useful combinations of quality, reliability, latency, cost, and human effort within the authority granted. Better combinations can make previously impractical work feasible. **Context management is central:** every decision depends on which evidence, relationships, obligations, and uncertainty reach it.
 
-AI engineering is a constrained optimization problem: finding useful combinations of quality, reliability, latency, cost, and human effort within the authority granted. Better choices may make previously impractical tasks feasible, such as investigation across many documents or sustained exception handling. That possibility needs testing against real constraints.
+## My thinking patterns, through concrete cases
 
-## My thinking patterns
+The cases below are illustrative engineering situations. Linked project examples are identified separately. Each extension shows the competing choices, the catch, and the evidence that could change the decision.
 
-### Understand the problem deeply and define completion
+### Understand the problem before choosing the system
 
-The underlying problem and the workflow around it set the direction. Who needs help, what prevents progress, and what would count as improvement? A success contract, explicit non-goals, failure costs, and a simpler baseline make the problem testable before architecture takes over. The choice depends on where model judgment adds value and where changing the workflow is enough.
+An invoice review queue takes three days. Is the bottleneck interpretation, missing purchase orders, or an approval handoff? Those explanations suggest different interventions: model judgment, better intake, or a workflow change. Faster generation helps only if it addresses the actual delay.
 
-Explore: [People and workflow](thinking/problem-understanding.md#people-and-workflow) · [Causes and assumptions](thinking/problem-understanding.md#causes-and-assumptions) · [Completion and failure costs](thinking/problem-understanding.md#completion-and-failure-costs) · [Baselines and feasibility](thinking/problem-understanding.md#baselines-and-feasibility)
+[Find why the reviewer waits three days](thinking/problem-understanding.md#people-and-workflow) · [Check whether course assignment changes the explanation](thinking/problem-understanding.md#causes-and-assumptions) · [Define when a disputed invoice is resolved](thinking/problem-understanding.md#completion-and-failure-costs) · [Compare model judgment with better intake](thinking/problem-understanding.md#baselines-and-feasibility)
 
-### Turn application knowledge into behavior
+### Make domain knowledge change behavior
 
-Domain meaning should change retrieval, validation, permissions, transitions, and acceptance. A schema can enforce structure while leaving a plausible claim unsupported. Requirements need to travel through the system, including the [reporting-period example](thinking/knowledge-contracts.md#requirements-across-boundaries). Unresolved assumptions should remain visible and testable.
+A revenue figure has a valid citation, but the source covers Q2 and the user asked for Q3. The requirement must affect source eligibility, context assembly, and acceptance. A well-formed answer can still fail the task.
 
-Explore: [Domain meaning](thinking/knowledge-contracts.md#domain-meaning) · [Requirements across boundaries](thinking/knowledge-contracts.md#requirements-across-boundaries) · [Structural and semantic contracts](thinking/knowledge-contracts.md#structural-and-semantic-contracts) · [Versions and change](thinking/knowledge-contracts.md#versions-and-change)
+[Reject a Q2 source for a Q3 request](thinking/knowledge-contracts.md#domain-meaning) · [Carry quarter identity from search to acceptance](thinking/knowledge-contracts.md#requirements-across-boundaries) · [Reject an unsupported claim despite valid JSON](thinking/knowledge-contracts.md#structural-and-semantic-contracts) · [Recheck approval when the policy changes](thinking/knowledge-contracts.md#versions-and-change)
 
-### Make context management a first-class design problem
+### Assemble context around the decision
 
-Context management determines what reaches each decision: permitted, relevant, fresh evidence with enough relationships and uncertainty preserved. Retrieval supplies candidates; context assembly determines whether the decision has what it needs. Fixed bundles, selective hydration, adaptive retrieval, graph expansion, and compaction deserve comparison. Context connects [application contracts](thinking/knowledge-contracts.md), [tool authority](thinking/agency-tools.md), [durable state](thinking/state-recovery.md), and [evaluation](thinking/evaluation-observability.md).
+A policy says approval is required above a threshold. Its footnote exempts a particular contract type. Retrieving the main rule without the exception changes the decision. Preloading a complete bundle, retrieving adaptively, and expanding relationships each help under different conditions and introduce different failure modes.
 
-Explore: [Evidence selection](thinking/context-management.md#evidence-selection) · [Assembly and dependencies](thinking/context-management.md#assembly-and-dependencies) · [Freshness and compression](thinking/context-management.md#freshness-and-compression) · [Access and injection](thinking/context-management.md#access-and-injection)
+[Check whether the policy is current and applicable](thinking/context-management.md#evidence-selection) · [Keep the footnote exception beside the rule](thinking/context-management.md#assembly-and-dependencies) · [Preserve a pending confirmation during compression](thinking/context-management.md#freshness-and-compression) · [Stop revoked evidence leaking through a summary](thinking/context-management.md#access-and-injection)
 
-### Allocate judgment and authority
+Project-reported counterexample: [FinRAG's temporal graph displaced the correct Q3 source](https://github.com/Axionis47/finsolve-abac-rag#what-the-tests-showed). More connected evidence did not automatically produce a better selection.
 
-Some decisions benefit from interpretation; others require enforceable software rules or accountable human judgment. Tool boundaries allocate agency. Small primitives, semantic tools, and workflow tools offer different flexibility, visibility, and recovery costs. Maintained tools also deserve credit for code and engineering time saved, weighed against setup, runtime, and maintenance.
+### Put tool boundaries where the choices belong
 
-Explore: [Decision allocation](thinking/agency-tools.md#decision-allocation) · [Tool abstraction](thinking/agency-tools.md#tool-abstraction) · [Authority and effects](thinking/agency-tools.md#authority-and-effects) · [Engineering effort](thinking/agency-tools.md#engineering-effort)
+Resolving a disputed invoice could require several small calls, one evidence-gathering operation, or a whole-workflow tool. The boundary changes flexibility, model effort, visibility, and recovery. A tool that saves calls still needs to expose consequential choices and partial failure.
 
-### Make execution observable and recoverable
+[Separate invoice interpretation from payment authority](thinking/agency-tools.md#decision-allocation) · [Compare invoice primitives with an evidence-bundle tool](thinking/agency-tools.md#tool-abstraction) · [Reject changed arguments after approval](thinking/agency-tools.md#authority-and-effects) · [Count setup, debugging, and code a tool saves](thinking/agency-tools.md#engineering-effort)
 
-Interruption raises the question of what survives and what can be trusted after an ambiguous effect. Canonical state, model context, memory, and artifacts serve different purposes. Checkpoints, idempotency, concurrency controls, and reconciliation need explicit semantics, especially when an effect succeeds before its completion record is saved.
+### Design for the gap between effect and receipt
 
-Explore: [Truth and representations](thinking/state-recovery.md#truth-and-representations) · [Checkpoint boundaries](thinking/state-recovery.md#checkpoint-boundaries) · [Effects and recovery](thinking/state-recovery.md#effects-and-recovery) · [Concurrency and evolution](thinking/state-recovery.md#concurrency-and-evolution)
+An update succeeds, but the process stops before saving its receipt. Retrying might duplicate the action; assuming success might lose unfinished work. The recovery choice depends on what the external system can prove and what authority remains valid.
 
-### Evaluate outcomes and the path taken
+[Store invoice facts separately from working context](thinking/state-recovery.md#truth-and-representations) · [Choose which investigation work must survive a crash](thinking/state-recovery.md#checkpoint-boundaries) · [Retry, reconcile, or escalate an uncertain write](thinking/state-recovery.md#effects-and-recovery) · [Handle two workers updating the same invoice](thinking/state-recovery.md#concurrency-and-evolution)
 
-Evaluation needs exact checks, calibrated human rubrics and model judges, multimodal evidence, and meaningful units from functions to complete trajectories. Traces help locate the first observable broken contract. Timing alone does not establish causality; controlled interventions are needed to test explanations. Versioned cases and regression gates make findings useful for later changes.
+### Evaluate the path behind a plausible answer
 
-Explore: [Evaluation units](thinking/evaluation-observability.md#evaluation-units) · [Rubrics and multimodal evidence](thinking/evaluation-observability.md#rubrics-and-multimodal-evidence) · [Tracing and causality](thinking/evaluation-observability.md#tracing-and-causality) · [Regression and rollout](thinking/evaluation-observability.md#regression-and-rollout)
+A polished Q3 answer can hide a retrieval error, an assembly omission, or a missing acceptance check. Outcome scores identify a problem; node and tool evidence help locate the first observable break. Different faults call for different fixes.
 
-### Treat latency, cost, and reliability as design constraints
+[Trace a wrong-quarter answer to its first failure](thinking/evaluation-observability.md#evaluation-units) · [Check invoice-image totals and attributed speech](thinking/evaluation-observability.md#rubrics-and-multimodal-evidence) · [Separate LangGraph node time from tool time](thinking/evaluation-observability.md#tracing-and-causality) · [Catch a tenant leak behind a passing average](thinking/evaluation-observability.md#regression-and-rollout)
+
+### Optimize the completed task
 
 **What we cannot measure, we cannot improve.**
 
-Quality, authority, and reliability floors come first; comparisons then examine feasible trade-offs. First useful response and verified completion need separate latency measures. Cost per successful task includes unsuccessful attempts and supporting infrastructure. Human review remains separately visible unless explicitly monetized. A cheaper call is useful only if the whole task still succeeds.
+A cheaper model call may require more retries or reviewer corrections. A fast first response may still leave the task waiting for verification. Cost and latency need a declared accounting boundary, meaningful completion criteria, and visible quality and reliability constraints.
 
-Explore: [Feasible trade-offs](thinking/optimization.md#feasible-trade-offs) · [Latency and critical paths](thinking/optimization.md#latency-and-critical-paths) · [Cost per successful task](thinking/optimization.md#cost-per-successful-task) · [Controlled measurements](thinking/optimization.md#controlled-measurements)
+[Reject a faster design that misses the task contract](thinking/optimization.md#feasible-trade-offs) · [Follow overlapping work to verified completion](thinking/optimization.md#latency-and-critical-paths) · [Calculate whether cheaper calls reduce task cost](thinking/optimization.md#cost-per-successful-task) · [Separate model evidence from infrastructure failure](thinking/optimization.md#controlled-measurements)
 
-## Questions that shape the design
-
-My [engineering reasoning notes](thinking/README.md) expand these patterns through conditional choices, failure modes, and evidence that could change the design. The examples are illustrative and composable, not an exhaustive catalogue or a claim of mastery. These are working views, not measured results.
-
-Further implementation and investigation: [FinRAG](https://github.com/Axionis47/finsolve-abac-rag) · [AI Engineering First Principles](https://github.com/Axionis47/basis-agent-engineering).
+My [case index and evidence policy](thinking/README.md) connect these examples. The choices remain conditional, and the design space remains open.
 
 Open to machine-learning and AI-engineering roles.
 

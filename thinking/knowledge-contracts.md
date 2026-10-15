@@ -1,21 +1,48 @@
 # My thinking: knowledge and contracts
 
-My aim is to turn application knowledge into observable behavior. A requirement matters when it changes what the system selects, permits, checks, or asks about.
+A correct-looking answer can violate the task before its wording is assessed. The revenue case and metadata below are illustrative, not measured outputs or a model run.
 
 ## Domain meaning
 
-Domain understanding needs entities, relationships, authoritative sources, terminology, and known uncertainty. A document can be authentic yet irrelevant to the requested entity or period. Evidence eligibility needs business meaning as well as search relevance. Assumptions need visible provenance and owners. Missing evidence differs from evidence of absence: an incomplete search should not quietly become a confident conclusion. Domain rules may be stable enough for code, contested enough for review, or dependent on facts that must be refreshed.
+```text
+Request: North Division, Q3 revenue
+Unresolved: fiscal Q3 or calendar Q3? Source S-18: fiscal Q2
+```
+
+A user asks for “North Division's Q3 revenue.” The company reports fiscal quarters, while the user may mean calendar quarters. Clarifying the period is useful when the distinction changes the answer. Applying a documented fiscal default can be reasonable in a recurring internal workflow if the assumption remains visible. Both choices need an authoritative entity mapping: a subsidiary with a similar name is not interchangeable.
+
+Clarification adds delay; a silent default creates confident wrong-period answers. User corrections, conflicting period references, and source metadata would determine whether the default remains defensible. Once Q3 is fixed, S-18 cannot support it. Frequent ambiguity favors earlier clarification.
 
 ## Requirements across boundaries
 
-A reporting-period requirement starts with clarifying fiscal versus calendar periods. Retrieval selects eligible entity, period, and source versions. [Context assembly](context-management.md#assembly-and-dependencies) preserves those identities and exposes conflicts. Acceptance checks verify citations and support for the conclusion. Evaluation includes wrong-period, missing-source, and conflicting-source cases. The trace records the source versions supplied and checks applied. One requirement becomes connected behaviors whose first failure can be located. A gap at any boundary can invalidate an otherwise fluent answer.
+Consider the following constructed mismatch:
+
+| Field | Requested | Retrieved source |
+| --- | --- | --- |
+| Entity | North Division | North Holdings |
+| Period basis | Fiscal | Calendar |
+| Quarter | Q3 | Q2 |
+
+Filtering before retrieval can prevent ineligible sources from entering the candidate set. A downstream acceptance check can independently reject a mismatched citation when metadata is unreliable or retrieval is broader. These controls can be combined. Early filtering can exclude a useful consolidated report; late rejection wastes work and may fail if identity was discarded during [context assembly](context-management.md#assembly-and-dependencies). Candidate identities, assembly manifests, and validation reasons reveal the first broken boundary. High semantic similarity cannot repair the mismatch.
 
 ## Structural and semantic contracts
 
-Structural checks can reject missing fields, invalid types, or unexpected properties where the interface requires them. [JSON Schema's object reference](https://json-schema.org/understanding-json-schema/reference/object) explains these mechanisms. A valid object still needs semantic checks: whether a source supports its claim, an actor has authority, and a transition is appropriate. Exact rules, evidence review, and calibrated rubrics cover different obligations. Their disagreements should remain observable. Rigid rejection can protect invariants but may need an uncertainty path for valid exceptions.
+```text
+Record fields present: entity, quarter, amount, citation
+Citation S-18: table covers a different entity
+```
+
+A revenue record might contain all required fields: entity, period, amount, and citation. Strict schema validation is useful for reliable parsing; evidence validation is needed to establish that the cited passage actually supports the amount and period. [JSON Schema's object rules explain required fields and additional properties](https://json-schema.org/understanding-json-schema/reference/object), not whether a financial claim is true.
+
+A structurally valid citation can point to an unrelated table. Exact metadata checks may reject that case; a calibrated semantic review may be needed when supporting notes use different terminology. Valid exceptions, unsupported acceptances, and reviewer disagreement would show where either check is too rigid or too permissive. A single “valid” flag would conceal the distinction.
 
 ## Versions and change
 
-Contracts need compatible schema, source, policy, prompt, tool, and grader versions. A policy change can invalidate an answer even when the text and model remain unchanged. Dataset versions preserve case provenance, expected invariants, and intentional changes. Regression cases expose whether an update creates new failures. CI and rollout evidence should connect a change to affected boundaries, with criteria to stop or restore prior behavior. Compatibility depends on meaning as well as shape.
+```text
+Approval PAY-v3: reviewer allowed -> PAY-v4: supervisor required
+Schema v2: amount -> schema v3: payable_amount
+```
 
-**What would change the choice:** Unsupported acceptances favor stronger evidence checks. Frequent rejection of valid exceptions favors a more explicit review path. Versioned cases should reveal which boundary changed and whether the improvement holds across critical slices.
+INV-42 was approved under PAY-v3, but PAY-v4 now requires a supervisor. Pinning versions explains the historical approval; revalidating authority protects a new commitment. A schema migration may also rename the amount field. The choice depends on whether the task asks what was authorized then or what may proceed now.
+
+Shape-compatible records can still carry obsolete meaning; aggressive migration can erase historical interpretation. Versioned cases should include both policies and intentional expected changes. Contract checks in CI, affected-case results, and staged-rollout corrections would indicate whether migration is safe. A changed grader must remain visible so a better score cannot disguise a shifted definition of success.

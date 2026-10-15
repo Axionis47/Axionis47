@@ -1,21 +1,48 @@
 # My thinking: agency and tools
 
-Tool design asks where semantic choice should meet reliable mechanics. The boundary determines what the model can decide and what software must guarantee.
+A disputed invoice needs judgment, evidence, and bounded effects. The case below is constructed and illustrative, not a model run or a measured tool comparison.
 
 ## Decision allocation
 
-Allocation starts with consequences, ambiguity, and accountability. Interpretation and investigation may benefit from model judgment. Calculations, identities, permissions, and transition rules need enforceable software boundaries. Humans may own disputed assumptions or consequential commitments. Prescribed workflows and model-directed loops can also be combined, as illustrated in [Anthropic's agent guidance](https://www.anthropic.com/engineering/building-effective-agents). Additional autonomy needs evidence of useful flexibility and acceptable failure costs. Good outcomes alone cannot justify authority that was never granted.
+```text
+INV-42: supplier claims emergency exception
+Order PO-17: exception flag absent; payment authority=reviewer
+```
+
+A supplier says the invoice matches an emergency order; the purchase-order system disagrees. A prescribed workflow can gather defined records and route the dispute. Model-directed investigation may help when evidence locations or terminology vary. Human judgment may remain necessary when the exception is contested or payment authority is restricted. [Anthropic's workflow and agent distinction explains these execution choices](https://www.anthropic.com/engineering/building-effective-agents), which can be combined within one task.
+
+Rigid routing can miss a valid exception; open-ended investigation can exceed scope. Source-backed recommendations, missed exceptions, unauthorized attempts, and reviewer corrections would establish where flexibility earns its cost. A correct recommendation does not grant authority to execute it.
 
 ## Tool abstraction
 
-Mechanical primitives, semantic operations, and broader workflow tools expose different choices. Primitives offer flexibility but increase planning and calls. Semantic tools can combine predictable joins, validation, or formatting while retaining meaningful decisions. Workflow tools may reduce effort on familiar cases yet conceal partial progress or struggle with exceptions. These are points along several design axes, not exhaustive categories. Each boundary needs explicit inputs, observations, errors, and retry semantics. Transport and discovery do not determine whether the abstraction is appropriate.
+For the same dispute, several boundaries are plausible:
+
+| Illustrative interface | Useful when | Catch |
+| --- | --- | --- |
+| Search, fetch, compare primitives | Investigation needs unusual combinations | Mechanical mistakes and many calls |
+| Build invoice-evidence bundle | Joins and checks are predictable | Bundle may omit novel evidence |
+| Resolve invoice workflow | Cases and allowed transitions are stable | Hidden decisions or partial progress |
+
+These are examples along several axes, not fixed categories. The bundle can expose evidence while leaving judgment outside; the workflow can offer an escape hatch. Incorrect joins, invalid arguments, excluded exceptions, and visible partial results would show whether the boundary is too narrow or too broad. Transport standardization does not settle that question.
 
 ## Authority and effects
 
-A tool contract identifies actor, capability scope, allowed resources, preconditions, and effect. Preview and commit can separate inspection from authorization. Approval may bind intent, a plan, exact arguments, or an effect; those are different controls. Tool observations remain untrusted data, especially when they contain injected instructions. Software enforces permissions independently of model compliance. Idempotency, receipts, verification, and [recovery semantics](state-recovery.md#effects-and-recovery) make ambiguous writes inspectable. Sensitive arguments and observations also need privacy controls.
+```text
+Preview: INV-42, 1200 units, payee A, policy P7-v3
+Commit request: same invoice, payee B
+```
+
+The reviewer previews payment of invoice INV-42 under policy v3. Approval bound to those exact arguments can prevent later substitution of a different amount or payee. Intent-level approval is less burdensome when a trusted executor can constrain all subsequent details. The binding should match the consequence and accountability required.
+
+Changed arguments after approval create an authority breach. Tool observations may also contain injected payment instructions; permissions must survive model compliance failures. Argument fingerprints, actor scope, permission results, and receipts expose the effect actually authorized. A timeout after partial execution needs [reconciliation rather than blind retry](state-recovery.md#effects-and-recovery), even when the preview was correct.
 
 ## Engineering effort
 
-Adoption should count infrastructure code avoided, development time saved, and operational support gained. Setup, integration, runtime overhead, debugging, upgrades, and maintenance can offset those savings. A maintained tool can be valuable without improving model quality. Its abstractions still need to preserve evaluation visibility. Cloud Gemini through Vertex AI with existing Application Default Credentials is one implementation option, subject to the task's access and service requirements. Infrastructure selection follows the contract rather than determining it.
+```text
+Integration ledger: handwritten lines; setup steps; debug hours
+Also record: export failures, upgrades, runtime overhead
+```
 
-**What would change the choice:** Repeated mechanical mistakes favor stronger semantic operations. Valid exceptions hidden by a broad tool favor exposing narrower decisions. Selection needs evidence across representative and consequential cases; a single polished path can justify exploration, not broad delegation.
+A maintained integration could replace custom authentication, pagination, and export handling. A small direct adapter may fit when the existing integration adds complex setup or hides receipts. Count handwritten code avoided, setup steps, debugging hours, export failures, upgrades, runtime overhead, and ownership over the same observation period. Fewer lines alone do not establish lower total effort; no speedup is assumed here.
+
+Concrete integration records would change the adoption choice. Cloud Gemini through Vertex AI with existing Application Default Credentials is an implementation option for real model calls if access and service requirements fit. Infrastructure choice should support the task's contracts, including observability and recovery, rather than determine the authority granted.

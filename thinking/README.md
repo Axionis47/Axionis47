@@ -1,25 +1,26 @@
 # My engineering reasoning notes
 
-My approach begins with the problem and follows its requirements through context, decisions, execution, and evidence. These notes extend the [thinking patterns in my profile](../README.md). They describe public design rationale and open questions. The examples are illustrative and composable, with no claim to know every alternative or to have measured these choices.
+Concrete cases make the trade-offs easier to inspect. These notes extend [my profile](../README.md) through situations where a plausible design can fail and evidence can change the choice. The alternatives are illustrative and composable, not exhaustive.
 
-| Reasoning area | Question shaping the design |
+| Start with a case | Follow the decision |
 | --- | --- |
-| [Problem understanding](problem-understanding.md) | What outcome matters, and what would establish improvement? |
-| [Knowledge and contracts](knowledge-contracts.md) | How does application knowledge change behavior? |
-| [Context management](context-management.md) | What should each decision know, and under whose authority? |
-| [Agency and tools](agency-tools.md) | Where should judgment and reliable mechanics meet? |
-| [State and recovery](state-recovery.md) | What remains true after interruption or change? |
-| [Evaluation and observability](evaluation-observability.md) | What failed first, and how strong is the evidence? |
-| [Optimization](optimization.md) | Which feasible design makes useful trade-offs for this task? |
+| [Invoices wait days for a purchase order](problem-understanding.md#people-and-workflow) | Faster decisions, better intake, or evidence gathering? |
+| [A convincing revenue citation names the wrong quarter](knowledge-contracts.md#requirements-across-boundaries) | Where should the requirement reject the answer? |
+| [A policy footnote reverses the main rule](context-management.md#evidence-selection) | Preload the evidence, retrieve adaptively, or expand relationships? |
+| [A disputed invoice needs tools and bounded authority](agency-tools.md#tool-abstraction) | Primitives, an evidence bundle, or a resolution workflow? |
+| [A write succeeds before the process crashes](state-recovery.md#effects-and-recovery) | Retry, reconcile, or escalate? |
+| [A polished answer hides the first wrong-source decision](evaluation-observability.md#tracing-and-causality) | Which observation actually localizes the failure? |
+| [Cheaper calls create more retries and review](optimization.md#cost-per-successful-task) | Which accounting boundary changes the apparent winner? |
 
-## Documentation and source policy
+<details>
+<summary>Sources, examples, and evidence policy</summary>
 
-Checked: **2026-10-15**. First-principles synthesis expresses my working understanding; linked primary documentation supports specific mechanisms. Sources are further reading, not evidence of my own results. Examples illustrate choices that may be combined or replaced. Each choice remains revisable by contrary evidence. These are lightweight notes, not product implementations. No experiments or model calls were run for these documents.
+Checked: **2026-10-15**. Constructed cases, amounts, and event sequences are labelled illustrative, not measured runs. Project reports are attributed separately. Official links explain specific mechanisms, not proof of my results. No experiments or model calls were run for these notes.
 
-Any supporting result should version the task, cases and dataset, model, prompt, context, tools, policy, and grader. Record observable decisions, evidence, permissions, effects, and checks. Keep hidden chain-of-thought, secrets, and gold labels out of runtime context. Separate trusted instructions from untrusted source content, and preserve access boundaries when retrieving, persisting, or displaying evidence.
+Supporting evidence needs task, dataset/case, model, prompt, context, tool, policy, and grader versions. Keep observable decisions and source provenance, not hidden chain-of-thought, secrets, or gold labels in runtime context. Preserve access, privacy, retention, and deletion boundaries across derived copies.
 
-Model outputs must identify `live`, `cached-live`, `replayed-live`, or `not-a-model`, plus provider, requested model, resolved version when available, prompt version, and call identity. Only live calls support model-quality, model-latency, or model-cost conclusions. Cache benefits require separate system measurements. Software-mechanics tests cannot stand in for model evidence.
+A controlled comparison declares one independent variable, preserves conclusive failures, and reports missing, excluded, and inconclusive cells. Infrastructure failures remain inconclusive. Record model provenance as `live`, `cached-live`, `replayed-live`, or `not-a-model`; only live supports model-quality, model-latency, and model-cost conclusions. Cache benefits are separate system evidence.
 
-Comparisons should declare one independent variable, preserve conclusive failures, mark infrastructure failures inconclusive, and show missing, excluded, and inconclusive counts. The [optimization note](optimization.md#controlled-measurements) expands these evidence boundaries.
+Consequential authority needs stronger evidence than reversible assistance. One confirmed access violation can outweigh a favorable average; a small latency difference may need repeated observations. Choices remain revisable as conditions and evidence change.
 
-Choosing a bounded, reversible design may need less evidence than granting consequential authority. Revision also depends on the signal: one confirmed access violation can outweigh a favorable average, while a small latency difference may need repeated observations. Confidence, exposure, failure costs, and recovery options shape the threshold; no single score settles every choice.
+</details>
