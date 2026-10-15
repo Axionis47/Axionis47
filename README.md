@@ -8,67 +8,57 @@ That understanding guides what needs a model, what belongs in software, what req
 
 That belief motivated [Causal Desk](https://github.com/Axionis47/causal-inference-agent), my causal analysis platform. Its workflow starts with a causal question, checks it against the data, and asks for missing information before selecting an analysis. The question, evidence, and assumptions guide the choice of method.
 
-## My first-principles approach
+AI engineering is a constrained optimization problem: finding useful combinations of quality, reliability, latency, cost, and human effort within the authority granted. Better choices may make previously impractical tasks feasible, such as investigation across many documents or sustained exception handling. That possibility needs testing against real constraints.
+
+## My thinking patterns
 
 ### Understand the problem deeply and define completion
 
-Who is the system helping? Where does the current workflow fail, and why? What must improve? Which facts are authoritative, what could be missing, and what would make the result unacceptable? A clear success contract, explicit non-goals, and a simpler baseline give later design choices something to answer to.
+The underlying problem and the workflow around it set the direction. Who needs help, what prevents progress, and what would count as improvement? A success contract, explicit non-goals, failure costs, and a simpler baseline make the problem testable before architecture takes over. The choice depends on where model judgment adds value and where changing the workflow is enough.
+
+Explore: [People and workflow](thinking/problem-understanding.md#people-and-workflow) · [Causes and assumptions](thinking/problem-understanding.md#causes-and-assumptions) · [Completion and failure costs](thinking/problem-understanding.md#completion-and-failure-costs) · [Baselines and feasibility](thinking/problem-understanding.md#baselines-and-feasibility)
 
 ### Turn application knowledge into behavior
 
-Domain meaning, evidence requirements, permissions, valid state transitions, and completion criteria should change what the system does. Retrieval rules, context contracts, tool validation, runtime checks, and evaluation cases make that knowledge operational. Unresolved assumptions remain visible.
+Domain meaning should change retrieval, validation, permissions, transitions, and acceptance. A schema can enforce structure while leaving a plausible claim unsupported. Requirements need to travel through the system, including the [reporting-period example](thinking/knowledge-contracts.md#requirements-across-boundaries). Unresolved assumptions should remain visible and testable.
+
+Explore: [Domain meaning](thinking/knowledge-contracts.md#domain-meaning) · [Requirements across boundaries](thinking/knowledge-contracts.md#requirements-across-boundaries) · [Structural and semantic contracts](thinking/knowledge-contracts.md#structural-and-semantic-contracts) · [Versions and change](thinking/knowledge-contracts.md#versions-and-change)
+
+### Make context management a first-class design problem
+
+Context management determines what reaches each decision: permitted, relevant, fresh evidence with enough relationships and uncertainty preserved. Retrieval supplies candidates; context assembly determines whether the decision has what it needs. Fixed bundles, selective hydration, adaptive retrieval, graph expansion, and compaction deserve comparison. Context connects [application contracts](thinking/knowledge-contracts.md), [tool authority](thinking/agency-tools.md), [durable state](thinking/state-recovery.md), and [evaluation](thinking/evaluation-observability.md).
+
+Explore: [Evidence selection](thinking/context-management.md#evidence-selection) · [Assembly and dependencies](thinking/context-management.md#assembly-and-dependencies) · [Freshness and compression](thinking/context-management.md#freshness-and-compression) · [Access and injection](thinking/context-management.md#access-and-injection)
 
 ### Allocate judgment and authority
 
-Identities, calculations, permissions, and valid state transitions belong behind enforceable software contracts. Models can handle interpretation and investigation within explicit boundaries. Human authority depends on consequences, accountability, reversibility, and unresolved uncertainty.
+Some decisions benefit from interpretation; others require enforceable software rules or accountable human judgment. Tool boundaries allocate agency. Small primitives, semantic tools, and workflow tools offer different flexibility, visibility, and recovery costs. Maintained tools also deserve credit for code and engineering time saved, weighed against setup, runtime, and maintenance.
 
-### Assemble context for the decision
-
-Retrieval finds candidate evidence; assembly determines what reaches a particular decision. The task determines which sources qualify, what must appear together, how contradictions are represented, and when evidence is sufficient. Preloaded context, selective hydration, adaptive retrieval, graph expansion, and combinations of these are alternatives to investigate. Their value depends on the task and evidence.
+Explore: [Decision allocation](thinking/agency-tools.md#decision-allocation) · [Tool abstraction](thinking/agency-tools.md#tool-abstraction) · [Authority and effects](thinking/agency-tools.md#authority-and-effects) · [Engineering effort](thinking/agency-tools.md#engineering-effort)
 
 ### Make execution observable and recoverable
 
-A model proposal crosses explicit boundaries: validated arguments, permission checks, tool execution, observations, artifacts, and state transitions. Completion requires evidence. Missing information, partial failure, interruption, and ambiguous effects need defined recovery or escalation paths.
+Interruption raises the question of what survives and what can be trusted after an ambiguous effect. Canonical state, model context, memory, and artifacts serve different purposes. Checkpoints, idempotency, concurrency controls, and reconciliation need explicit semantics, especially when an effect succeeds before its completion record is saved.
+
+Explore: [Truth and representations](thinking/state-recovery.md#truth-and-representations) · [Checkpoint boundaries](thinking/state-recovery.md#checkpoint-boundaries) · [Effects and recovery](thinking/state-recovery.md#effects-and-recovery) · [Concurrency and evolution](thinking/state-recovery.md#concurrency-and-evolution)
 
 ### Evaluate outcomes and the path taken
 
-Checks need the right granularity: functions, model outputs, nodes, tools, transitions, trajectories, and end-to-end outcomes. Deterministic checks cover exact contracts; semantic assessment needs explicit rubrics and calibration. Traces help locate the first observable broken contract. Controlled interventions test causal explanations.
+Evaluation needs exact checks, calibrated human rubrics and model judges, multimodal evidence, and meaningful units from functions to complete trajectories. Traces help locate the first observable broken contract. Timing alone does not establish causality; controlled interventions are needed to test explanations. Versioned cases and regression gates make findings useful for later changes.
+
+Explore: [Evaluation units](thinking/evaluation-observability.md#evaluation-units) · [Rubrics and multimodal evidence](thinking/evaluation-observability.md#rubrics-and-multimodal-evidence) · [Tracing and causality](thinking/evaluation-observability.md#tracing-and-causality) · [Regression and rollout](thinking/evaluation-observability.md#regression-and-rollout)
 
 ### Treat latency, cost, and reliability as design constraints
 
-Time to a useful response differs from time to verified completion. Model calls, context work, tools, persistence, retries, and review each contribute overhead. Maintained tools deserve evaluation for the infrastructure code and effort they save, alongside their setup, runtime, and maintenance costs.
+**What we cannot measure, we cannot improve.**
 
-## My learning questions
+Quality, authority, and reliability floors come first; comparisons then examine feasible trade-offs. First useful response and verified completion need separate latency measures. Cost per successful task includes unsuccessful attempts and supporting infrastructure. Human review remains separately visible unless explicitly monetized. A cheaper call is useful only if the whole task still succeeds.
 
-These are open areas of investigation. Each needs credible alternatives, visible failures, and evidence about when the choice should change.
+Explore: [Feasible trade-offs](thinking/optimization.md#feasible-trade-offs) · [Latency and critical paths](thinking/optimization.md#latency-and-critical-paths) · [Cost per successful task](thinking/optimization.md#cost-per-successful-task) · [Controlled measurements](thinking/optimization.md#controlled-measurements)
 
-| Area | Questions guiding the learning |
-| --- | --- |
-| Problem understanding and approach | Is the stated problem the underlying problem? How does the work happen today? Is a model needed? What can a simpler workflow achieve, and what evidence would establish improvement? |
-| Context assembly | When is a fixed evidence bundle sufficient? When should retrieval adapt? How should ordering, compression, dependencies, conflicting sources, freshness, and access affect assembly? |
-| Agency and tools | Which decisions benefit from autonomy? When do small primitives, semantic tools, or workflow tools reduce effort without hiding essential choices? |
-| State and recovery | What is canonical truth, model context, memory, or an artifact? Where do checkpoints help, and how should interrupted or duplicated work resume safely? |
-| Evaluation and visibility | What belongs at node, tool, trajectory, and outcome level? How can text, image, audio, and mixed-media tasks be assessed? Where do exact checks, calibrated judges, and human review fit? |
-| Operational trade-offs | How do quality, latency, cost, reviewer effort, and recovery change across designs? Which tools save enough code and maintenance to justify their overhead? |
+## Questions that shape the design
 
-## Following one requirement through the system
-
-Suppose a task requires the correct reporting period. That requirement should change the application at several boundaries:
-
-| Boundary | Resulting behavior |
-| --- | --- |
-| Intent | Clarify fiscal versus calendar periods when necessary |
-| Retrieval | Select eligible sources for the requested entity, period, and version |
-| Context | Preserve period metadata and expose conflicts or missing evidence |
-| Acceptance | Check cited source identities and period metadata; require support for the conclusion |
-| Evaluation | Test wrong-period, missing-source, and conflicting-source cases |
-| Trace | Record which source versions reached the decision and which checks passed |
-
-The principle: **what the application knows should determine what it retrieves, allows, verifies, rejects, or asks about.**
-
-## My learning loop
-
-Frame the task, make assumptions explicit, compare credible alternatives, inject failures, inspect the first broken contract, and explain the trade-off. Controlled studies isolate one variable and report limitations. Implemented behavior, measured results, and proposed improvements stay distinct. A useful conclusion states when a design is appropriate and what evidence would change that choice.
+My [engineering reasoning notes](thinking/README.md) expand these patterns through conditional choices, failure modes, and evidence that could change the design. The examples are illustrative and composable, not an exhaustive catalogue or a claim of mastery. These are working views, not measured results.
 
 Further implementation and investigation: [FinRAG](https://github.com/Axionis47/finsolve-abac-rag) · [AI Engineering First Principles](https://github.com/Axionis47/basis-agent-engineering).
 
