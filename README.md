@@ -6,6 +6,8 @@ My approach starts with the people doing the work, their actual needs, the domai
 
 That understanding guides what needs a model, what belongs in software, what requires human judgment, and how completion can be verified. Context assembly, tools, and architecture follow those decisions. Early experiments test the assumptions and deepen the understanding as the system develops.
 
+That belief motivated [Causal Desk](https://github.com/Axionis47/causal-inference-agent), my causal analysis platform. Its workflow starts with a causal question, checks it against the data, and asks for missing information before selecting an analysis. The question, evidence, and assumptions guide the choice of method.
+
 ## My first-principles approach
 
 ### Understand the problem deeply and define completion
@@ -68,7 +70,7 @@ The principle: **what the application knows should determine what it retrieves, 
 
 Frame the task, make assumptions explicit, compare credible alternatives, inject failures, inspect the first broken contract, and explain the trade-off. Controlled studies isolate one variable and report limitations. Implemented behavior, measured results, and proposed improvements stay distinct. A useful conclusion states when a design is appropriate and what evidence would change that choice.
 
-Implementation and investigation: [Causal Desk](https://github.com/Axionis47/causal-inference-agent) · [FinRAG](https://github.com/Axionis47/finsolve-abac-rag) · [AI Engineering First Principles](https://github.com/Axionis47/basis-agent-engineering).
+Further implementation and investigation: [FinRAG](https://github.com/Axionis47/finsolve-abac-rag) · [AI Engineering First Principles](https://github.com/Axionis47/basis-agent-engineering).
 
 Open to machine-learning and AI-engineering roles.
 
