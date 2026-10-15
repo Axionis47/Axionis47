@@ -1,14 +1,16 @@
 # Siddharth Yalamanchili
 
-**My focus: understanding the task, turning application knowledge into system behavior, and learning what makes an AI system dependable.**
+**My guiding principle: high-quality AI solutions begin with a deep understanding of the problem.**
 
-My starting point is the outcome, the uncertainty, the evidence required, and the consequences of being wrong. These shape the approach: what needs a model, what belongs in software, what requires human judgment, and how completion can be verified. Architecture follows those decisions.
+My approach starts with the people doing the work, their actual needs, the domain, the existing workflow, and the consequences of getting it wrong. Understanding the problem means questioning assumptions, separating symptoms from causes, identifying constraints, and defining what a useful outcome would look like.
+
+That understanding guides what needs a model, what belongs in software, what requires human judgment, and how completion can be verified. Context assembly, tools, and architecture follow those decisions. Early experiments test the assumptions and deepen the understanding as the system develops.
 
 ## My first-principles approach
 
-### Understand the problem and define completion
+### Understand the problem deeply and define completion
 
-Who is the system helping? What must they accomplish? Which facts are authoritative, what could be missing, and what would make the result unacceptable? A clear success contract, explicit non-goals, and a simpler baseline give later design choices something to answer to.
+Who is the system helping? Where does the current workflow fail, and why? What must improve? Which facts are authoritative, what could be missing, and what would make the result unacceptable? A clear success contract, explicit non-goals, and a simpler baseline give later design choices something to answer to.
 
 ### Turn application knowledge into behavior
 
@@ -40,7 +42,7 @@ These are open areas of investigation. Each needs credible alternatives, visible
 
 | Area | Questions guiding the learning |
 | --- | --- |
-| Task framing and approach | Is a model needed? What can a simpler workflow achieve? Which uncertainties require investigation, and what evidence establishes completion? |
+| Problem understanding and approach | Is the stated problem the underlying problem? How does the work happen today? Is a model needed? What can a simpler workflow achieve, and what evidence would establish improvement? |
 | Context assembly | When is a fixed evidence bundle sufficient? When should retrieval adapt? How should ordering, compression, dependencies, conflicting sources, freshness, and access affect assembly? |
 | Agency and tools | Which decisions benefit from autonomy? When do small primitives, semantic tools, or workflow tools reduce effort without hiding essential choices? |
 | State and recovery | What is canonical truth, model context, memory, or an artifact? Where do checkpoints help, and how should interrupted or duplicated work resume safely? |
