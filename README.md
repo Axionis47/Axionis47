@@ -8,6 +8,36 @@ That belief motivated [Causal Desk: asking how a course was assigned before esti
 
 One useful lens for AI engineering is constrained optimization: finding workable combinations of quality, reliability, latency, cost, and human effort within the authority granted. Better combinations may make previously impractical work feasible. **Context management is a particular focus:** how do the right evidence, relationships, obligations, and uncertainty reach each decision?
 
+## Work experience
+
+### Applied AI Engineer (contract) · [Florida Blue (BCBSFL)](https://axionis47.github.io/portfolio/experience/florida-blue.html)
+
+Aug 2024 to Dec 2024 · Jacksonville, FL
+
+- Built and evaluated a call-intelligence prototype using Whisper, pyannote speaker diarization, and a two-stage gate-then-extract pipeline. Processed 300+ calls into structured BigQuery records and benchmarked three self-hosted LLMs against a golden set of 50+ verified calls.
+- Built a claims text-to-SQL prototype with custom ICD-10, CPT, and denial-code lookup tools. Presented evaluation findings and automation limits to leadership, including failures in issue-resolution detection and complex SQL queries.
+
+### Founding Engineer · [Frenly](https://axionis47.github.io/portfolio/experience/frenly.html)
+
+Jan 2023 to Dec 2023 · India
+
+- Built six backend service modules for a doctor-patient messaging platform using Node.js and Express, covering authentication, scheduling, assignment, messaging, case files, and notifications.
+- Integrated client-side end-to-end encryption with Virgil E3Kit, JWT authentication and role-based access across three user types, and Cronofy calendar synchronization. Deployed the investor-demo platform on AWS EC2 with Docker Compose.
+
+### Software Engineering Intern · [LTIMindtree](https://axionis47.github.io/portfolio/experience/ltimindtree.html)
+
+May 2022 to Dec 2022 · India
+
+- Improved submission and execution reliability on Fosfor Spectra with SHA-256 request fingerprinting, configuration validation, terminal-status handling, and failure classification with retry eligibility.
+- Added 30+ pytest tests and a CI smoke-test harness covering 10+ scenarios, including duplicate submissions, invalid configurations, retry behavior, and status polling.
+
+### Battery Simulation Intern · [Sirius Motorsports](https://axionis47.github.io/portfolio/experience/sirius-motorsports.html)
+
+2022 · Chennai, India
+
+- Wrote bare-metal C firmware on ARM Cortex-M for a 24V lead-acid battery management system, with voltage, current, and temperature monitoring and protection cutoffs.
+- Calibrated ADC readings against bench instruments and refined hysteresis and software averaging to address relay chatter and false fault triggers during load transients.
+
 ## Tech stack
 
 Tools used in [Causal Desk](https://github.com/Axionis47/causal-inference-agent) and [FinRAG](https://github.com/Axionis47/finsolve-abac-rag).
