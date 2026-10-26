@@ -8,6 +8,34 @@ That belief motivated [Causal Desk: asking how a course was assigned before esti
 
 One useful lens for AI engineering is constrained optimization: finding workable combinations of quality, reliability, latency, cost, and human effort within the authority granted. Better combinations may make previously impractical work feasible. **Context management is a particular focus:** how do the right evidence, relationships, obligations, and uncertainty reach each decision?
 
+## Tech stack
+
+Tools used in [Causal Desk](https://github.com/Axionis47/causal-inference-agent) and [FinRAG](https://github.com/Axionis47/finsolve-abac-rag).
+
+**Languages and applications**
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+
+**AI and data**
+
+![LangGraph](https://img.shields.io/badge/LangGraph-1C3C3C?style=flat-square&logo=langgraph&logoColor=white)
+![LangChain / LangSmith](https://img.shields.io/badge/LangChain_%2F_LangSmith-1C3C3C?style=flat-square&logo=langchain&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
+![pandas](https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white)
+![Pydantic](https://img.shields.io/badge/Pydantic-E92063?style=flat-square&logo=pydantic&logoColor=white)
+![Neo4j](https://img.shields.io/badge/Neo4j-4581C3?style=flat-square&logo=neo4j&logoColor=white)
+
+**Infrastructure and development tools**
+
+![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=flat-square&logo=googlecloud&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white)
+![Ruff](https://img.shields.io/badge/Ruff-261230?style=flat-square&logo=ruff&logoColor=D7FF64)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+
 ## Questions shaping my work
 
 These notes capture my current understanding through concrete cases, competing approaches, and questions that remain open. Different tasks may call for different choices, and better evidence may change these views. The constructed cases are illustrative; linked project examples are identified separately.
