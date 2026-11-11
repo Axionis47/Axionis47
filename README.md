@@ -28,15 +28,17 @@ The transformer uses attention over neighbors and Laplacian positional encodings
 
 [Code](https://github.com/Axionis47/GAT-Recommendation) · [Walkthrough notebook](https://github.com/Axionis47/GAT-Recommendation/blob/main/notebooks/session_recsys_walkthrough.ipynb) · [Results and design discussion](https://axionis47.github.io/portfolio/projects/gat-recommendation.html)
 
-### 3. Causal Analysis Desk
+### 3. Causal Workspace
 
-A difference in outcomes can reflect how people entered a treatment group. Selecting an analysis therefore needs facts about assignment, sampling, and variable timing that column names cannot supply.
+A causal analysis needs more than a table of values. Variable meanings, assignment, sampling, and timing determine what an estimate can support.
 
-I built a LangGraph agent that profiles a dataset and interviews the analyst for that context. Sourced claims and method requirements feed a typed handoff to one of three analysis families. Statistical execution runs through **DoWhy, pyfixest, or rdrobust**, and explanations cite the resulting artifacts.
+I built a full-stack workspace for uploading and reopening versioned datasets, reviewing sourced study context, and discussing data through saved chat and visualizations. Four bounded agents handle study understanding, analysis design, computation, and results explanation.
 
-*Python · LangGraph · Pydantic · Causal inference · FastAPI · React/TypeScript*
+Each analysis binds exact dataset and context revisions. The user reviews and approves the program before target-effect execution. Saved code, numerical evidence, assumptions, and reports remain available for inspection and follow-up discussion.
 
-[Code and demonstration](https://github.com/Axionis47/causal-inference-agent#see-it) · [Architecture and API contracts](https://github.com/Axionis47/causal-inference-agent/blob/main/docs/architecture.md) · [Handoff tests](https://github.com/Axionis47/causal-inference-agent/blob/main/causal_agent/desk/tests/test_handoff.py)
+*Python · FastAPI · React/TypeScript · PostgreSQL · LangGraph · Causal inference*
+
+[![Causal Workspace showing a saved descriptive chart for a synthetic program-offer study.](assets/projects/causal-workspace.png)](assets/projects/causal-workspace.png)
 
 ### 4. FinRAG: retrieval strategies and evidence access
 
