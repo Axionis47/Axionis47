@@ -38,6 +38,8 @@ Each analysis binds exact dataset and context revisions. The user reviews and ap
 
 *Python · FastAPI · React/TypeScript · PostgreSQL · LangGraph · Causal inference*
 
+[Code and walkthrough](https://github.com/Axionis47/causal-inference-agent) · [Architecture](https://github.com/Axionis47/causal-inference-agent/blob/main/docs/architecture.md) · [Setup](https://github.com/Axionis47/causal-inference-agent/blob/main/docs/operations.md)
+
 [![Causal Workspace showing a saved descriptive chart for a synthetic program-offer study.](assets/projects/causal-workspace.png)](assets/projects/causal-workspace.png)
 
 ### 4. FinRAG: retrieval strategies and evidence access
